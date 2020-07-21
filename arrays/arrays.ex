@@ -1,4 +1,4 @@
-defmodule ArrayMutations do
+defmodule Arrays do
   def update_users(users, id, new_attributes) do
     IO.inspect new_attributes
     user = Enum.find(users, fn user -> user.id === id end)
