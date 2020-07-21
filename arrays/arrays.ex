@@ -23,4 +23,14 @@ defmodule Arrays do
   #  3. [ “Hello Dave!” | [ “Hello Chris!” | [“Hello Josh!” | Arrays.map([], fn(name) -> “Hello #{name}!” end)] ] ]
   #  4. [ “Hello Dave!” | [ “Hello Chris!” | [“Hello Josh!” | []] ] ]
   #  5. [“Hello Dave!”, “Hello Chris!”, “Hello Josh!”]
+
+  def delete_all(list, func), do: delete_all(list, func, []) |> Enum.reverse
+  def delete_all([], _func, new_list), do: new_list
+  def delete_all([head | tail], func, new_list) do
+    updated_list = if func.(head), do: new_list, else: [head | new_list]
+    delete_all(tail, func, updated_list)
+  end
+
+#  Arrays.delete_all([1, 2, 6, 6, 6, 3, 7], fn el -> el === 6 end)
+# should return [1, 2, 3, 7]
 end
