@@ -24,4 +24,30 @@ defmodule Recursion do
 
   def zipper([], []), do: []
   def zipper([h1 | t1], [h2 | t2]), do: [{h1, h2} | zip(t1, t2)]
+
+  #  [3, 1, 2, 4, 5]
+  def quicksort([]) do
+    []
+  end
+
+  def quicksort([pivot | rest]) do
+    # pivot: 3   rest: [1, 2, 4, 5]
+    {smaller, larger} = partition(pivot, rest, [], [])
+    # {[2,1], [4,5]}
+    quicksort(smaller) ++ [pivot] ++ quicksort(larger)
+    # quicksort([2, 1]) + [3] + quicksort([5, 4])
+  end
+
+  def partition(_, [], smaller, larger), do: {smaller, larger}
+  def partition(pivot, [head | tail], smaller, larger) do
+    #  P: 3, h: 1, t: [2, 4, 5], [], []
+    #  P: 3, h: 2, t: [4, 5], [1], []
+    #  P: 3, h: 4, t: [5], [2, 1], [4]
+    #  P: 3, h: 5, t: [], [2, 1], [5, 4]
+    if(head <= pivot) do
+      partition(pivot, tail, [head | smaller], larger)
+    else
+      partition(pivot, tail, smaller, [head | larger])
+    end
+  end
 end
